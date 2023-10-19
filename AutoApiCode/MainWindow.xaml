@@ -1,0 +1,25 @@
+﻿<Window x:Class="AutoApiCode.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoApiCode"
+        mc:Ignorable="d" Height="100" Width="100"  
+        WindowStartupLocation="Manual"  ShowInTaskbar="False"  WindowStyle="None"  WindowState="Normal" 
+        SnapsToDevicePixels="True" ResizeMode="NoResize"  AllowsTransparency="True"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown" 
+        Title="MainWindow" Background="#0000">
+    <!--<Grid.Background>
+            <ImageBrush ImageSource="/AutoApiCode;component/Skin/bg.png" />
+        </Grid.Background>-->
+    <Grid>
+        <Border Background="Black" CornerRadius="40" Width="80" Height="{Binding Path=Width,RelativeSource={RelativeSource Self}}" >
+        </Border>
+        <Grid  Width="80" Height="{Binding Path=Width,RelativeSource={RelativeSource Self}}"  Name="xxx">
+            <Grid.Background>
+                <ImageBrush ImageSource="/AutoApiCode;component/Skin/3gy.png" />
+            </Grid.Background>
+        </Grid>
+        <TextBlock Text="码" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="White"/>
+    </Grid>
+</Window>
