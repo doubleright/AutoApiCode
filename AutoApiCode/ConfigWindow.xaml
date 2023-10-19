@@ -1,0 +1,38 @@
+﻿<Window x:Class="AutoApiCode.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoApiCode" WindowStyle="None"  ResizeMode="NoResize"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" Height="400" Width="600">
+    <Window.Resources>
+        <Style TargetType="TextBlock" x:Key="fmTxt">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28" />
+            <RowDefinition />
+            <RowDefinition Height="28" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="AliceBlue" x:Name="title" MouseLeftButtonDown="title_MouseLeftButtonDown">
+            <TextBlock Text="Swagger自动生成代码"  VerticalAlignment="Center" TextAlignment="Center" Width="AUTO" />
+        </Border>
+        <Border Grid.Row="1" Background="Gray" DockPanel.Dock="Top" >
+            <StackPanel Margin="10" >
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="终端" Style="{StaticResource fmTxt}" />
+
+                </StackPanel>
+                <ComboBox />
+                <ComboBox />
+                <ComboBox />
+            </StackPanel>
+        </Border>
+        <StackPanel Grid.Row="2">
+
+        </StackPanel>
+    </Grid>
+</Window>
