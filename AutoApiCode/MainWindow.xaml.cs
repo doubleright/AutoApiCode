@@ -169,7 +169,7 @@ namespace AutoApiCode
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show("转换失败：" + ex.Message);
                 }
                 finally
                 {

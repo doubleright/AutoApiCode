@@ -23,9 +23,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="AutoPath\openapi-generator-cli-6.6.0.jar">
+    <None Update="Env\openapi-generator-cli-6.6.0.jar">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Env\jre.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AutoPath\" />
   </ItemGroup>
 
 </Project>

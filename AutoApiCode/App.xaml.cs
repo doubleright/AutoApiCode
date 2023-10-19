@@ -14,7 +14,7 @@ namespace AutoApiCode
         protected override void OnStartup(StartupEventArgs e)
         {
             string[] pargs = Environment.GetCommandLineArgs();
-            //pargs = new string[] { "", "auto:////http://33333" };
+            pargs = new string[] { "", "auto:////http://localhost:5225/swagger/v1/swagger.json" };
             if (pargs.Length >= 2)
             {
                 var arg = System.Web.HttpUtility.UrlDecode(pargs[1]);
