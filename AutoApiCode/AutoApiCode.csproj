@@ -23,10 +23,13 @@
 
 	<ItemGroup>
 		<None Update="Env\openapi-generator-cli-6.6.0.jar">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Update="Env\jre.zip">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Env\swagger-codegen-cli-3.0.48.jar">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 </Project>

@@ -30,11 +30,11 @@ namespace AutoApiCode
 
             txtPath.Text = _config.CodePath ?? "默认";
 
-            cbbLang.DisplayMemberPath = "Value";
-            cbbLang.SelectedValuePath = "Key";
+            //cbbLang.DisplayMemberPath = "Value";
+            //cbbLang.SelectedValuePath = "Key";
             rdClient.IsChecked = _config.CodeType == GenCodeType.Client;
             rdServer.IsChecked = !rdClient.IsChecked;
-            cbbLang.SelectedValue = _config.Index;
+            cbbLang.SelectedIndex = _config.Index;
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace AutoApiCode
         }
 
         /// <summary>
-        /// 取消
+        /// 直接关闭
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -204,7 +204,7 @@ namespace AutoApiCode
         }
 
         /// <summary>
-        /// 保存配置
+        /// 保存退出
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -213,7 +213,7 @@ namespace AutoApiCode
 
             _config.CodeType = rdClient.IsChecked == true ? GenCodeType.Client : GenCodeType.Server;
 
-            _config.Index = (int)cbbLang.SelectedValue;
+            _config.Index = cbbLang.SelectedIndex;
 
             if (txtPath.Text != "默认")
             {
