@@ -56,7 +56,7 @@
             <RowDefinition Height="40" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="#ee0665d0" x:Name="title" MouseLeftButtonDown="title_MouseLeftButtonDown">
+        <Border Grid.Row="0" Background="#EE7DA5D4" x:Name="title" MouseLeftButtonDown="title_MouseLeftButtonDown">
             <TextBlock Text="Swagger自动生成代码"  FontSize="18" VerticalAlignment="Center" TextAlignment="Center" Width="AUTO" Foreground="White" />
         </Border>
         <Border Grid.Row="1"  Margin="10" DockPanel.Dock="Top" Background="#EEFFFFFF" CornerRadius="3" >
@@ -64,41 +64,23 @@
                 <DropShadowEffect BlurRadius="5" Opacity="0.2" />
             </Border.Effect>
         </Border>
-        <StackPanel  Margin="16" Grid.Row="1">
+        <StackPanel  Margin="16" Grid.Row="1" Name="plMain" >
 
             <Border CornerRadius="3" BorderThickness="1" BorderBrush="Gray"  Margin="0 0 0 10">
                 <StackPanel>
                     <StackPanel Style="{StaticResource fmItem}">
                         <TextBlock Text="支持" Style="{StaticResource fmLabel}" />
-                        <TextBlock Text="json 和 yaml" Foreground="#43a9c7" />
+                        <TextBlock Text="json 和 yaml (输入路径或文本)" Foreground="#43a9c7" />
                     </StackPanel>
 
                     <Grid Margin="10 0">
-                        <TextBox TextWrapping="Wrap"  Height="120" Name="txtGenInput" VerticalContentAlignment="Top">
-                            <TextBox.Resources>
-                                <VisualBrush x:Key="HintText" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
-                                    <VisualBrush.Visual>
-                                        <TextBlock  FontStyle="Italic" FontSize="11" Text="输入路径或文本" />
-                                    </VisualBrush.Visual>
-                                </VisualBrush>
-                            </TextBox.Resources>
-                            <TextBox.Style>
-                                <Style TargetType="TextBox">
-                                    <Style.Triggers>
-                                        <Trigger Property="Text" Value="{x:Null}">
-                                            <Setter Property="Background" Value="{StaticResource HintText}"/>
-                                        </Trigger>
-                                        <Trigger Property="Text" Value="">
-                                            <Setter Property="Background" Value="{StaticResource HintText}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBox.Style>
-                        </TextBox>
+                        <TextBox TextWrapping="WrapWithOverflow" AcceptsReturn="True"  Height="120" Name="txtGenInput" VerticalContentAlignment="Top"
+                                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
                     </Grid>
 
                     <StackPanel Style="{StaticResource fmItem}" HorizontalAlignment="Center">
-                        <Button Content="清空" Name="btnClear" Click="btnClear_Click" Style="{StaticResource fmBtn}" Margin="0 0 0 0" />
+                        <Button Content="清空" Name="btnClear" Click="btnClear_Click" Style="{StaticResource fmBtn}" Margin="0 0 0 0" 
+                                />
                         <Button Content="生成" Name="btnGen" Click="btnGen_Click" Style="{StaticResource fmBtn}" Margin="20 0 0 0" />
                     </StackPanel>
                 </StackPanel>

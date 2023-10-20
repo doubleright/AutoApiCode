@@ -28,7 +28,7 @@ namespace AutoApiCode
 
                 try
                 {
-                    Util.Code.Get(Util.Code.GetLang(_config.CodeType, _config.Index), url, _config.CodePath);
+                    Util.Code.GenCode(Util.Code.GetLang(_config.CodeType, _config.Index), url, _config.CodePath);
                 }
                 catch (Exception ex)
                 {

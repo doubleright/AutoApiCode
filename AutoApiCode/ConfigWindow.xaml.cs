@@ -5,6 +5,8 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Forms;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace AutoApiCode
 {
@@ -18,6 +20,12 @@ namespace AutoApiCode
         public ConfigWindow()
         {
             //Register();
+
+            if (!System.IO.Directory.Exists(Code.AutoPath))
+            {
+                System.IO.Directory.CreateDirectory(Code.AutoPath);
+            }
+
             InitializeComponent();
 
             txtPath.Text = _config.CodePath ?? "默认";
@@ -29,7 +37,9 @@ namespace AutoApiCode
             cbbLang.SelectedValue = _config.Index;
         }
 
-
+        /// <summary>
+        /// 注册表写入
+        /// </summary>
         private void Register()
         {
             try
@@ -60,6 +70,85 @@ namespace AutoApiCode
             DragMove();
         }
 
+
+        /// <summary>
+        /// 清除输入框
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            txtGenInput.Text = null;
+            txtGenInput.Focus();
+        }
+
+        /// <summary>
+        /// 生成代码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGen_Click(object sender, RoutedEventArgs e)
+        {
+            string input = txtGenInput.Text;
+            string output = txtPath.Text == "默认" ? null : txtPath.Text;
+            string lang = cbbLang.Text;
+
+            if (string.IsNullOrEmpty(input))
+            {
+                System.Windows.MessageBox.Show("输入不能空");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(lang))
+            {
+                System.Windows.MessageBox.Show("语言不能为空");
+                return;
+            }
+
+            plMain.IsEnabled = false;
+            Topmost = false;
+
+            Task.Run(() =>
+            {
+                try
+                {
+
+
+                    if (input.IndexOf(":\\") == 1) //路径
+                    {
+                        input = $"\"{input}\"";
+                    }
+                    else if (input.StartsWith("http", StringComparison.OrdinalIgnoreCase)) //网址
+                    {
+                        input = $"\"{System.Web.HttpUtility.UrlDecode(input)}\"";
+                    }
+                    else //写入文件
+                    {
+                        string filePath = Path.Combine(Code.AutoPath, "temp");
+                        File.WriteAllText(filePath, input);
+                        input = $"\"{filePath}\"";
+                    }
+
+                    Code.GenCode(lang, input, output);
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show($"生成失败：{ex.Message}");
+                }
+                finally
+                {
+                    plMain.Dispatcher.BeginInvoke(() =>
+                        {
+                            plMain.IsEnabled = true;
+                            Topmost = true;
+                        }
+                    );
+                }
+            });
+
+
+        }
+
         /// <summary>
         /// 选择client
         /// </summary>
@@ -80,12 +169,21 @@ namespace AutoApiCode
             cbbLang.ItemsSource = Util.Code.Servers;
         }
 
-
+        /// <summary>
+        /// 默认路径
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDftPath_Click(object sender, RoutedEventArgs e)
         {
             txtPath.Text = "默认";
         }
 
+        /// <summary>
+        /// 选择路径
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnChangePath_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new();
@@ -93,24 +191,6 @@ namespace AutoApiCode
             folderBrowserDialog.ShowDialog();        //这个方法可以显示文件夹选择对话框
             string directoryPath = folderBrowserDialog.SelectedPath;    //获取选择的文件夹的全路径名
             if (!string.IsNullOrEmpty(directoryPath)) txtPath.Dispatcher.Invoke(() => txtPath.Text = directoryPath);
-        }
-
-        /// <summary>
-        /// 生成代码
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnGen_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(txtGenInput.Text)) ;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
         }
 
         /// <summary>
@@ -122,7 +202,6 @@ namespace AutoApiCode
         {
             Code.Exit();
         }
-
 
         /// <summary>
         /// 保存配置
@@ -150,9 +229,5 @@ namespace AutoApiCode
             Code.Exit();
         }
 
-        private void btnClear_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
     }
 }

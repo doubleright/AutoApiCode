@@ -177,25 +177,32 @@ namespace AutoApiCode.Util
             }
         }
 
-        public static void Get(string lang, string herf, string codePath = null)
+        public readonly static string EnvPath = Path.Combine(Config.ConfigHelper.AppPath, "Env");
+        public readonly static string JarPath = Path.Combine(Config.ConfigHelper.AppPath, "Env", "openapi-generator-cli-6.6.0.jar");
+        public readonly static string AutoPath = Path.Combine(Config.ConfigHelper.AppPath, "AutoPath");
+        public readonly static string DefaultCodePath = Path.Combine(Config.ConfigHelper.AppPath, "AutoPath", "Code");
+
+        /// <summary>
+        /// 生成代码
+        /// </summary>
+        /// <param name="lang">语言</param>
+        /// <param name="herf">路径</param>
+        /// <param name="codePath">生成位置</param>
+        public static void GenCode(string lang, string herf, string codePath = null)
         {
-            string envPath = Path.Combine(Config.ConfigHelper.AppPath, "Env");
-            string jarPath = Path.Combine(envPath, "openapi-generator-cli-6.6.0.jar");
+            if (codePath == null || !Directory.Exists(codePath)) codePath = DefaultCodePath;
 
-            string autoPath = Path.Combine(Config.ConfigHelper.AppPath, "AutoPath");
-            if (codePath == null || !Directory.Exists(codePath)) codePath = Path.Combine(autoPath, "Code");
-
-            string jrePath = Path.Combine(envPath, "jre");
+            string jrePath = Path.Combine(EnvPath, "jre");
             if (!Directory.Exists(jrePath))
             {
-                ZipFile.ExtractToDirectory(Path.Combine(envPath, "jre.zip"), envPath);
+                ZipFile.ExtractToDirectory(Path.Combine(EnvPath, "jre.zip"), EnvPath);
             }
             string javaExe = Path.Combine(jrePath, "bin", "java.exe");
 
             if (Directory.Exists(codePath)) Directory.Delete(codePath, true);
             Directory.CreateDirectory(codePath);
             //typescript-axios
-            string cmd = $"-jar \"{jarPath}\" generate -i \"{herf}\" -g {lang} -o \"{codePath}\"";
+            string cmd = $"-jar \"{JarPath}\" generate --enable-post-process-file -i {herf} -g {lang} -o \"{codePath}\"";
 
             RunProcess(javaExe, cmd);
             System.Diagnostics.Process.Start("explorer.exe", codePath);
@@ -219,7 +226,7 @@ namespace AutoApiCode.Util
                     {
                         Thread.Sleep(1000);
                         timeOut++;
-                        if (timeOut == 5)
+                        if (timeOut == 20)
                         {
                             errorMsg = "超时";
                             p.Kill();
@@ -258,7 +265,7 @@ namespace AutoApiCode.Util
                     timeOut = 0;
                     if (e.Data == null) return;
                     errSb.Append($"{e.Data}\r");
-                    if (e.Data.Contains("ERROR", StringComparison.OrdinalIgnoreCase))
+                    if (e.Data.Contains("ERROR", StringComparison.OrdinalIgnoreCase) || e.Data.Contains("Exception", StringComparison.OrdinalIgnoreCase))
                     {
                         if (string.IsNullOrEmpty(errorMsg)) errorMsg = e.Data;
                         p.Kill();
