@@ -19,7 +19,7 @@ namespace AutoApiCode
 
         public ConfigWindow()
         {
-            //Register();
+            Register();
 
             if (!System.IO.Directory.Exists(Code.AutoPath))
             {
