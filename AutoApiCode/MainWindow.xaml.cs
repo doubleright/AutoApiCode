@@ -14,8 +14,6 @@ namespace AutoApiCode
     /// </summary>
     public partial class MainWindow : Window
     {
-
-
         MainConfig _config = ConfigHelper.GetConfig<MainConfig>();
 
         public MainWindow(string url)
@@ -30,7 +28,7 @@ namespace AutoApiCode
 
                 try
                 {
-                    Util.Code.Get(GetLang(_config.CodeType, _config.Index), url, _config.CodePath);
+                    Util.Code.Get(Util.Code.GetLang(_config.CodeType, _config.Index), url, _config.CodePath);
                 }
                 catch (Exception ex)
                 {
@@ -63,31 +61,6 @@ namespace AutoApiCode
             DragMove();
         }
 
-        /// <summary>
-        /// 获取语言
-        /// </summary>
-        /// <param name="codeType"></param>
-        /// <param name="lang"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        private string GetLang(GenCodeType codeType, int lang)
-        {
-            try
-            {
-                switch (codeType)
-                {
-                    case GenCodeType.Client:
-                        return Util.Code.Clients[lang];
-                    case GenCodeType.Server:
-                        return Util.Code.Servers[lang];
-                    default:
-                        throw new Exception("语言配置异常");
-                }
-            }
-            catch (Exception)
-            {
-                throw new Exception("语言配置异常");
-            }
-        }
+
     }
 }

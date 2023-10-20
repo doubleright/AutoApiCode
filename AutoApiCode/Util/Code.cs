@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoApiCode.Config;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -13,7 +14,7 @@ namespace AutoApiCode.Util
     internal class Code
     {
         //生成客户端
-        public static Dictionary<int, string> Clients = new()
+        public static readonly Dictionary<int, string> Clients = new()
         {
             [1] = "ada",
             [2] = "android",
@@ -89,7 +90,7 @@ namespace AutoApiCode.Util
         };
 
         //可生成服务端
-        public static Dictionary<int, string> Servers = new()
+        public static readonly Dictionary<int, string> Servers = new()
         {
             [1] = "ada-server",
             [2] = "aspnetcore",
@@ -149,6 +150,33 @@ namespace AutoApiCode.Util
             [56] = "spring",
         };
 
+        /// <summary>
+        /// 获取语言
+        /// </summary>
+        /// <param name="codeType"></param>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static string GetLang(GenCodeType codeType, int lang)
+        {
+            try
+            {
+                switch (codeType)
+                {
+                    case GenCodeType.Client:
+                        return Util.Code.Clients[lang];
+                    case GenCodeType.Server:
+                        return Util.Code.Servers[lang];
+                    default:
+                        throw new Exception("语言配置异常");
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("语言配置异常");
+            }
+        }
+
         public static void Get(string lang, string herf, string codePath = null)
         {
             string envPath = Path.Combine(Config.ConfigHelper.AppPath, "Env");
@@ -167,7 +195,7 @@ namespace AutoApiCode.Util
             if (Directory.Exists(codePath)) Directory.Delete(codePath, true);
             Directory.CreateDirectory(codePath);
             //typescript-axios
-            string cmd = $"-jar \"{jarPath}\" generate -i {herf} -g {lang} -o \"{codePath}\"";
+            string cmd = $"-jar \"{jarPath}\" generate -i \"{herf}\" -g {lang} -o \"{codePath}\"";
 
             RunProcess(javaExe, cmd);
             System.Diagnostics.Process.Start("explorer.exe", codePath);

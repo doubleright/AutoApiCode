@@ -1,18 +1,10 @@
 ﻿using AutoApiCode.Config;
+using AutoApiCode.Util;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace AutoApiCode
 {
@@ -21,10 +13,20 @@ namespace AutoApiCode
     /// </summary>
     public partial class ConfigWindow : Window
     {
+        MainConfig _config = ConfigHelper.GetConfig<MainConfig>();
+
         public ConfigWindow()
         {
-            InitializeComponent();
             //Register();
+            InitializeComponent();
+
+            txtPath.Text = _config.CodePath ?? "默认";
+
+            cbbLang.DisplayMemberPath = "Value";
+            cbbLang.SelectedValuePath = "Key";
+            rdClient.IsChecked = _config.CodeType == GenCodeType.Client;
+            rdServer.IsChecked = !rdClient.IsChecked;
+            cbbLang.SelectedValue = _config.Index;
         }
 
 
@@ -48,7 +50,7 @@ namespace AutoApiCode
             }
             catch (Exception ex)
             {
-                MessageBox.Show("请以管理员运行");
+                System.Windows.MessageBox.Show("请以管理员运行");
                 System.Environment.Exit(0);
             }
         }
@@ -56,6 +58,101 @@ namespace AutoApiCode
         private void title_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        /// <summary>
+        /// 选择client
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rdClient_Checked(object sender, RoutedEventArgs e)
+        {
+            cbbLang.ItemsSource = Util.Code.Clients;
+        }
+
+        /// <summary>
+        /// 选择server
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rdServer_Checked(object sender, RoutedEventArgs e)
+        {
+            cbbLang.ItemsSource = Util.Code.Servers;
+        }
+
+
+        private void btnDftPath_Click(object sender, RoutedEventArgs e)
+        {
+            txtPath.Text = "默认";
+        }
+
+        private void btnChangePath_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new();
+            //if(txtPath.Text!="默认") folderBrowserDialog.RootFolder =  Environment.SpecialFolder.Windows;    //设置初始目录
+            folderBrowserDialog.ShowDialog();        //这个方法可以显示文件夹选择对话框
+            string directoryPath = folderBrowserDialog.SelectedPath;    //获取选择的文件夹的全路径名
+            if (!string.IsNullOrEmpty(directoryPath)) txtPath.Dispatcher.Invoke(() => txtPath.Text = directoryPath);
+        }
+
+        /// <summary>
+        /// 生成代码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGen_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(txtGenInput.Text)) ;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 取消
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Code.Exit();
+        }
+
+
+        /// <summary>
+        /// 保存配置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommit_Click(object sender, RoutedEventArgs e)
+        {
+
+            _config.CodeType = rdClient.IsChecked == true ? GenCodeType.Client : GenCodeType.Server;
+
+            _config.Index = (int)cbbLang.SelectedValue;
+
+            if (txtPath.Text != "默认")
+            {
+                _config.CodePath = txtPath.Text;
+            }
+            else
+            {
+                _config.CodePath = null;
+            }
+
+            _config.Save();
+
+            Code.Exit();
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

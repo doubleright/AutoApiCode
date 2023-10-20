@@ -1,38 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<ItemGroup>
+		<None Remove="Skin\3gy.png" />
+		<None Remove="Skin\bg.jpg" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Skin\3gy.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="Skin\3gy.png" />
+		<Resource Include="Skin\bg.jpg" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Skin\3gy.png" />
-    <Resource Include="Skin\bg.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Env\openapi-generator-cli-6.6.0.jar">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Env\jre.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="AutoPath\" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<None Update="Env\openapi-generator-cli-6.6.0.jar">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Env\jre.zip">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
