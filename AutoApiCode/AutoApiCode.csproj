@@ -29,6 +29,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\AutoCodeUIEx\AutoCodeUIEx.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Update="Env\openapi-generator-cli-6.6.0.jar">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
