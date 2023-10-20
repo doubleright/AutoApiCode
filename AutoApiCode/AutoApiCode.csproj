@@ -5,15 +5,22 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<UseWindowsForms>true</UseWindowsForms>
+		<ApplicationIcon>Skin\autoMan.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Remove="Skin\3gy.png" />
+		<None Remove="Skin\autoMan.ico" />
 		<None Remove="Skin\bg.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Include="Skin\autoMan.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Resource Include="Skin\3gy.png" />
+		<Resource Include="Skin\autoMan.ico" />
 		<Resource Include="Skin\bg.jpg" />
 	</ItemGroup>
 

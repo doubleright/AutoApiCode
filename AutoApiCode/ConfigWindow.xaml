@@ -47,6 +47,27 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="Button" x:Key="fmClose" BasedOn="{StaticResource fmBtn}" >
+            <Setter Property="Background" Value="#EE5555" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+                            <TextBlock Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#DD6666"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#DD6666"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.Background>
@@ -118,9 +139,9 @@
             </Border>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 16 0 0" >
-                <Button Width="80" Height="30" Style="{StaticResource fmBtn}" Content="直接关闭" 
-                    Name="btnClose" Click="btnClose_Click" Background="#EE5555" Margin="0"/>
-                <Button Width="80" Height="30" Style="{StaticResource fmBtn}" Margin="10 0 0 0" Content="保存退出"
+                <Button Width="80" Height="30" Style="{StaticResource fmClose}" Content="直接关闭" 
+                    Name="btnClose" Click="btnClose_Click" Margin="0"/>
+                <Button Width="80" Height="30" Style="{StaticResource fmBtn}" Margin="20 0 0 0" Content="保存退出"
                     Name="btnCommit" Click="btnCommit_Click"/>
             </StackPanel>
         </StackPanel>

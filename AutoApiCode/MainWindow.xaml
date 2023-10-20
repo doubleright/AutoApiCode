@@ -8,7 +8,7 @@
         WindowStartupLocation="Manual"  ShowInTaskbar="False"  WindowStyle="None"  WindowState="Normal" 
         SnapsToDevicePixels="True" ResizeMode="NoResize"  AllowsTransparency="True"
         MouseLeftButtonDown="Window_MouseLeftButtonDown" 
-        Title="MainWindow" Background="#0000">
+        Title="MainWindow" Background="#0000" Icon="/AutoApiCode;component/Skin/autoMan.ico">
     <!--<Grid.Background>
             <ImageBrush ImageSource="/AutoApiCode;component/Skin/bg.png" />
         </Grid.Background>-->
