@@ -145,7 +145,7 @@
                     Name="btnCommit" Click="btnCommit_Click"/>
             </StackPanel>
         </StackPanel>
-        <TextBlock Grid.RowSpan="3" Text="V1.0.1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="14 12"
+        <TextBlock Grid.RowSpan="3" Text="V1.0.0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="14 12"
                    Foreground="Gray"/>
     </Grid>
 </Window>
