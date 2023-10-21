@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoApiCode" WindowStyle="None"  ResizeMode="NoResize"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen" Height="490" Width="280" Topmost="True">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" Height="500" Width="280" Topmost="True">
     <Window.Resources>
         <Style TargetType="StackPanel" x:Key="fmItem">
             <Setter Property="Margin" Value="0 6" />
@@ -145,5 +145,7 @@
                     Name="btnCommit" Click="btnCommit_Click"/>
             </StackPanel>
         </StackPanel>
+        <TextBlock Grid.RowSpan="3" Text="V1.0.1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="14 12"
+                   Foreground="Gray"/>
     </Grid>
 </Window>
