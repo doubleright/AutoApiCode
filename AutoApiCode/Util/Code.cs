@@ -107,7 +107,8 @@ namespace AutoApiCode.Util
         /// <param name="lang">语言</param>
         /// <param name="herf">路径</param>
         /// <param name="codePath">生成位置</param>
-        public static void GenCode(string lang, string herf, string codePath = null)
+        /// <param name="callBack">结果回调</param>
+        public static void GenCode(string lang, string herf, string codePath = null, Action<string> callBack = null)
         {
             if (codePath == null || !Directory.Exists(codePath)) codePath = DefaultCodePath;
 
@@ -123,29 +124,40 @@ namespace AutoApiCode.Util
             //typescript-axios
             string cmd = $"-jar \"{JarPath}\" generate -i {herf} -l {lang} -o \"{codePath}\"";
 
-            RunProcess("java", cmd);
+            RunProcess(javaExe, cmd, callBack);
             System.Diagnostics.Process.Start("explorer.exe", codePath);
         }
 
         [DllImport("kernel32.dll")]
         public static extern Boolean AllocConsole();
 
-        private static void RunProcess(string exe, string Parameters)
+        const int TimeOut = 30; //超时时间（S）
+
+        private static void RunProcess(string exe, string Parameters, Action<string> callBack = null)
         {
             string errorMsg = null;
             //AllocConsole();
             using (Process p = new())
             {
-                bool isRun = true;
-                int timeOut = 0;
+                int timeNow = 0;
+                bool isWaitCode = true;
+
+                int consoleGenFileCount = 0;//生成文件的数量
 
                 Task.Run(() =>
                 {
-                    while (isRun)
+                    while (isWaitCode)
                     {
                         Thread.Sleep(1000);
-                        timeOut++;
-                        if (timeOut == 20)
+                        timeNow++;
+                        if (consoleGenFileCount == 0)
+                        {
+                            Task.Run(() =>
+                            {
+                                callBack?.Invoke($"{TimeOut - timeNow}s");
+                            });
+                        }
+                        if (timeNow == TimeOut)
                         {
                             errorMsg = "超时";
                             p.Kill();
@@ -169,7 +181,8 @@ namespace AutoApiCode.Util
 
                 p.OutputDataReceived += (sender, e) =>
                 {
-                    timeOut = 0;
+                    timeNow = 0;
+
                     if (e.Data == null) return;
                     infoSb.Append($"{e.Data}\r");
 
@@ -177,11 +190,21 @@ namespace AutoApiCode.Util
                     {
                         p.Kill();
                     }
+
+                    if (e.Data.Contains("writing file", StringComparison.OrdinalIgnoreCase))
+                    {
+                        consoleGenFileCount++;
+                        Task.Run(() =>
+                        {
+                            callBack?.Invoke($"输出{consoleGenFileCount}");
+                        });
+                    }
                 };
 
                 p.ErrorDataReceived += (sender, e) =>
                 {
-                    timeOut = 0;
+                    timeNow = 0;
+
                     if (e.Data == null) return;
                     errSb.Append($"{e.Data}\r");
                     if (e.Data.Contains("ERROR", StringComparison.OrdinalIgnoreCase) || e.Data.Contains("Exception", StringComparison.OrdinalIgnoreCase))
@@ -195,7 +218,7 @@ namespace AutoApiCode.Util
                 p.BeginErrorReadLine();
                 p.BeginOutputReadLine();
                 p.WaitForExit();//等待程序执行完退出进程
-                isRun = false;
+                isWaitCode = false;
                 p.Close();//关闭进程
                 p.Dispose();//释放资源
 

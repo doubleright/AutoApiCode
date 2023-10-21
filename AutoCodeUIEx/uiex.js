@@ -20,7 +20,7 @@ window.onload = function () {
         var mainBox = document.querySelector(".main")
 
         var one = document.createElement("div");
-        one.innerHTML = `<a href='javascript:void(0)' onclick='gen("${apiUrl}")'>自动生成代码</a>`
+        one.innerHTML = `<a href="javascript:void(0)" onclick="gen('${apiUrl}')">自动生成代码</a>`
         mainBox.appendChild(one);
 
         //var two = document.createElement("div");

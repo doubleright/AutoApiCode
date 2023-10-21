@@ -78,7 +78,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Background="#EE7DA5D4" x:Name="title" MouseLeftButtonDown="title_MouseLeftButtonDown">
-            <TextBlock Text="Swagger自动生成代码"  FontSize="18" VerticalAlignment="Center" TextAlignment="Center" Width="AUTO" Foreground="White" />
+            <TextBlock x:Name="txtTitle" Text="Swagger自动生成代码"  FontSize="18" VerticalAlignment="Center" TextAlignment="Center" Width="AUTO" Foreground="White" />
         </Border>
         <Border Grid.Row="1"  Margin="10" DockPanel.Dock="Top" Background="#EEFFFFFF" CornerRadius="3" >
             <Border.Effect>

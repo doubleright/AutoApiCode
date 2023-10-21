@@ -16,6 +16,7 @@ namespace AutoApiCode
     public partial class ConfigWindow : Window
     {
         MainConfig _config = ConfigHelper.GetConfig<MainConfig>();
+        readonly string WinTitle = "Swagger自动生成代码";
 
         public ConfigWindow()
         {
@@ -27,7 +28,7 @@ namespace AutoApiCode
             }
 
             InitializeComponent();
-
+            txtTitle.Text = WinTitle;
             txtPath.Text = _config.CodePath ?? "默认";
 
             //cbbLang.DisplayMemberPath = "Value";
@@ -120,16 +121,24 @@ namespace AutoApiCode
                     }
                     else if (input.StartsWith("http", StringComparison.OrdinalIgnoreCase)) //网址
                     {
-                        input = $"\"{System.Web.HttpUtility.UrlDecode(input)}\"";
+                        //input = $"\"{System.Web.HttpUtility.UrlDecode(input)}\"";
+                        input = $"\"{input}\"";
                     }
                     else //写入文件
                     {
-                        string filePath = Path.Combine(Code.AutoPath, "temp");
+                        string filePath = Path.Combine(Code.AutoPath, "temp.config");
+                        if(File.Exists(filePath)) File.Delete(filePath);
                         File.WriteAllText(filePath, input);
                         input = $"\"{filePath}\"";
                     }
 
-                    Code.GenCode(lang, input, output);
+                    Code.GenCode(lang, input, output, res =>
+                    {
+                        txtTitle.Dispatcher.Invoke(() =>
+                        {
+                            txtTitle.Text = $"生成中：{res}";
+                        });
+                    });
                 }
                 catch (Exception ex)
                 {
@@ -141,6 +150,7 @@ namespace AutoApiCode
                         {
                             plMain.IsEnabled = true;
                             Topmost = true;
+                            txtTitle.Text = WinTitle;
                         }
                     );
                 }
