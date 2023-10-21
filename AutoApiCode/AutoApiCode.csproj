@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ApplicationIcon>Skin\autoMan.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Skin\3gy.png" />
+		<None Remove="Skin\autoMan.ico" />
+		<None Remove="Skin\bg.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Skin\autoMan.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Skin\3gy.png" />
+		<Resource Include="Skin\autoMan.ico" />
+		<Resource Include="Skin\bg.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\AutoCodeUIEx\AutoCodeUIEx.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Env\openapi-generator-cli-6.6.0.jar">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
+		<None Update="Env\jre.zip">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Env\swagger-codegen-cli-3.0.48.jar">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
