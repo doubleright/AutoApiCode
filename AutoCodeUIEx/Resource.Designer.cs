@@ -61,24 +61,36 @@ namespace AutoCodeUIEx {
         }
         
         /// <summary>
-        ///   查找类似 
-        ///var getUrl = function (url) {
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] AutoMan {
+            get {
+                object obj = ResourceManager.GetObject("AutoMan", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 var getUrl = function (url) {
         ///    var httpRequest = new XMLHttpRequest();//第一步：建立所需的对象
         ///    httpRequest.open(&apos;GET&apos;, url, true);//第二步：打开连接 
         ///    httpRequest.send();
         ///}
         ///
+        ///var gen = function () {
+        ///
+        ///    var url = document.querySelector(&quot;#select&quot;).firstChild.value;
+        ///    if (url.indexOf(&quot;http&quot;) == -1) {
+        ///        url = window.location.origin + url
+        ///    }
+        ///
+        ///    location.href = &quot;AutoGenCode://&quot; + url;
+        ///}
         ///
         ///window.onload = function () {
         ///
         ///    setTimeout(() =&gt; {
-        ///        var apiUrl = document.querySelector(&quot;.main &gt; a&quot;).href;
-        ///
-        ///        var mainBox = document.querySelector(&quot;.main&quot;)
-        ///
-        ///        var one = document.createElement(&quot;div&quot;);
-        ///        var url1 = `/api/generate?herf=${apiUrl}&amp;lang=typescript-axios`;
-        ///        one.innerHTML = `&lt;a href= [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///        var button = document.createElement(&quot;butt [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string uiex {
             get {

@@ -4,7 +4,9 @@ var getUrl = function (url) {
     httpRequest.send();
 }
 
-var gen = function (url) {
+var gen = function () {
+
+    var url = document.querySelector("#select").firstChild.value;
     if (url.indexOf("http") == -1) {
         url = window.location.origin + url
     }
@@ -15,18 +17,13 @@ var gen = function (url) {
 window.onload = function () {
 
     setTimeout(() => {
-        var apiUrl = document.querySelector(".main > a").href;
+        var img = document.createElement("img");
+        img.src = logo;
+        img.addEventListener("click", gen);
+        img.style = "height:40px;width:40px;margin-left:10px"
 
-        var mainBox = document.querySelector(".main")
-
-        var one = document.createElement("div");
-        one.innerHTML = `<a href="javascript:void(0)" onclick="gen('${apiUrl}')">自动生成代码</a>`
-        mainBox.appendChild(one);
-
-        //var two = document.createElement("div");
-        //var url2 = `/api/generate?herf=${apiUrl}&lang=javascript`;
-        //two.innerHTML = `<a href='#' onclick='getUrl("${url2}")'>自动生成冯敬涛专用代码</a>`
-        //mainBox.appendChild(two);
+        var warp = document.querySelector(".select-label");
+        warp.appendChild(img);
 
     }, 2000)
 }();
