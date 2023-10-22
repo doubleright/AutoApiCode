@@ -9,8 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="Env\autoMain.ico" />
 		<None Remove="Skin\3gy.png" />
-		<None Remove="Skin\autoMan.ico" />
 		<None Remove="Skin\bg.jpg" />
 	</ItemGroup>
 
@@ -23,8 +23,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Resource Include="Skin\3gy.png" />
 		<Resource Include="Skin\autoMan.ico" />
+		<Resource Include="Skin\3gy.png" />
 		<Resource Include="Skin\bg.jpg" />
 	</ItemGroup>
 
