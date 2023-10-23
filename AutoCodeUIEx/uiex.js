@@ -5,8 +5,7 @@ var getUrl = function (url) {
 }
 
 var gen = function () {
-
-    var url = document.querySelector("#select").firstChild.value;
+    var url = document.querySelector(".main > a").href;
     if (url.indexOf("http") == -1) {
         url = window.location.origin + url
     }
@@ -20,7 +19,8 @@ window.onload = function () {
         var img = document.createElement("img");
         img.src = logo;
         img.addEventListener("click", gen);
-        img.style = "height:40px;width:40px;margin-left:10px"
+        img.style = "height:40px;width:40px;margin-left:10px";
+        img.title = "AutoMan-自动生成代码";
 
         var warp = document.querySelector(".select-label");
         warp.appendChild(img);
