@@ -134,12 +134,15 @@ namespace AutoApiCode.Util
         {
             var logPath = Path.Combine(Config.ConfigHelper.AppPath, "clog.txt");
 
-            if (!File.Exists(logPath))
+            lock (JarPath) 
             {
-                File.Create(logPath);
-            }
+                if (!File.Exists(logPath))
+                {
+                    File.Create(logPath);
+                }
 
-            File.AppendAllText(logPath, $"{log}\r\n");
+                File.AppendAllText(logPath, $"{log}\r\n");
+            }          
         }
 
         [DllImport("kernel32.dll")]
@@ -187,7 +190,7 @@ namespace AutoApiCode.Util
                 //p.StartInfo.RedirectStandardInput = true;//接受来自调用程序的输入信息
                 p.StartInfo.RedirectStandardOutput = true;//由调用程序获取输出信息
                 p.StartInfo.RedirectStandardError = true;//重定向标准错误输出
-                p.StartInfo.CreateNoWindow = true;//不创建进程窗口                                                
+                p.StartInfo.CreateNoWindow = true;//不创建进程窗口                
 
                 StringBuilder infoSb = new();
                 StringBuilder errSb = new();
