@@ -1,4 +1,5 @@
 ﻿using AutoApiCode.Config;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -123,9 +124,22 @@ namespace AutoApiCode.Util
             Directory.CreateDirectory(codePath);
             //typescript-axios
             string cmd = $"-jar \"{JarPath}\" generate -i {herf} -l {lang} -o \"{codePath}\"";
+            AddLog($"{javaExe} {cmd}");
+            RunProcess(javaExe, cmd, callBack);      
 
-            RunProcess(javaExe, cmd, callBack);
             System.Diagnostics.Process.Start("explorer.exe", codePath);
+        }
+
+        private static void AddLog(string log) 
+        {
+            var logPath = Path.Combine(Config.ConfigHelper.AppPath, "clog.txt");
+
+            if (!File.Exists(logPath))
+            {
+                File.Create(logPath);
+            }
+
+            File.AppendAllText(logPath, $"{log}\r\n");
         }
 
         [DllImport("kernel32.dll")]
@@ -158,7 +172,7 @@ namespace AutoApiCode.Util
                             });
                         }
                         if (timeNow == TimeOut)
-                        {
+                        {                       
                             errorMsg = "超时";
                             p.Kill();
                             break;
@@ -184,12 +198,15 @@ namespace AutoApiCode.Util
                     timeNow = 0;
 
                     if (e.Data == null) return;
+
+                    AddLog(e.Data);
+
                     infoSb.Append($"{e.Data}\r");
 
-                    if (e.Data.Contains("ERROR", StringComparison.OrdinalIgnoreCase))
-                    {
-                        p.Kill();
-                    }
+                    //if (e.Data.Contains("ERROR", StringComparison.OrdinalIgnoreCase))
+                    //{
+                    //    p.Kill();
+                    //}
 
                     if (e.Data.Contains("writing file", StringComparison.OrdinalIgnoreCase))
                     {
@@ -206,6 +223,9 @@ namespace AutoApiCode.Util
                     timeNow = 0;
 
                     if (e.Data == null) return;
+
+                    AddLog(e.Data);
+
                     errSb.Append($"{e.Data}\r");
                     if (e.Data.Contains("ERROR", StringComparison.OrdinalIgnoreCase) || e.Data.Contains("Exception", StringComparison.OrdinalIgnoreCase))
                     {
@@ -224,6 +244,8 @@ namespace AutoApiCode.Util
 
                 string info = infoSb.ToString();
                 string err = errSb.ToString();
+
+                AddLog(errorMsg);
                 if (!string.IsNullOrEmpty(errorMsg)) throw new Exception(errorMsg);
             }
         }
